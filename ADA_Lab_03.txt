@@ -1,0 +1,105 @@
+#include <stdio.h>  
+#define MAX_VERTICES 100 
+#define INF 999 
+int min(int a, int b) { 
+    return (a < b) ? a : b; 
+} 
+void floydAlgorithm(int a[MAX_VERTICES][MAX_VERTICES], int n) { 
+    int d[MAX_VERTICES][MAX_VERTICES]; 
+    for (int i = 0; i < n; i++) { 
+        for (int j = 0; j < n; j++) { 
+            d[i][j] = a[i][j]; 
+        } 
+    } 
+    for (int k = 0; k < n; k++) { 
+        for (int i = 0; i < n; i++) { 
+            for (int j = 0; j < n; j++) { 
+                if (d[i][k] != INF && d[k][j] != INF && d[i][j] > d[i][k] + d[k][j]) { 
+                    d[i][j] = d[i][k] + d[k][j]; 
+                } 
+            } 
+        } 
+    }  
+    printf ("\nShortest informa on:\n"); 
+    for (int i = 0; i < n; i++) { 
+        for (int j = 0; j < n; j++) { 
+            printf ("%d\t", d[i][j]); 
+        } 
+        printf ("\n"); 
+    } 
+} 
+ 
+int main() { 
+    int n; 
+    printf ("Enter the number of vertices: "); 
+    scanf("%d", &n); 
+    int a[MAX_VERTICES][MAX_VERTICES]; 
+    printf ("Enter the weighted graph in form of adjacency matrix:\n"); 
+    for (int i = 0; i < n; i++) { 
+        for (int j = 0; j < n; j++) { 
+            scanf("%d", &a[i][j]); 
+            if (a[i][j] == 0 && i != j) { 
+                a[i][j] = INF; 
+            } 
+        } 
+    } 
+ 
+    printf ("\nMatrix:\n"); 
+    for (int i = 0; i < n; i++) { 
+        for (int j = 0; j < n; j++) { 
+            printf ("%d\t", a[i][j]); 
+        } 
+        printf ("\n"); 
+    } 
+    floydAlgorithm(a, n); 
+ 
+    return 0; 
+}
+
+
+#include <stdio.h> 
+#define MAX_VERTICES 100 
+void warshallAlgorithm(int a[MAX_VERTICES][MAX_VERTICES], int n) { 
+	int transitiveClosure[MAX_VERTICES][MAX_VERTICES]; 
+	for (int i = 0; i < n; i++) { 
+		for (int j = 0; j < n; j++) { 
+			transitiveClosure[i][j] = a[i][j]; 
+		} 
+	} 
+	for (int k = 0; k < n; k++) { 
+        	for (int i = 0; i < n; i++) { 
+            		for (int j = 0; j < n; j++) { 
+                		if (transitiveClosure[i][k] && transitiveClosure[k][j]) 
+                    		transitiveClosure[i][j] = 1; 
+            		} 
+        	} 
+    	} 
+     	printf ("\nTransitve Closure:\n"); 
+    	for (int i = 0; i < n; i++) { 
+        	for (int j = 0; j < n; j++) { 
+            		printf ("%d\t", transitiveClosure[i][j]); 
+        	} 
+        	printf ("\n"); 
+    	} 
+} 
+int main() { 
+    int n; 
+    printf ("Enter the number of vertices: "); 
+    scanf("%d", &n); 
+    int a[MAX_VERTICES][MAX_VERTICES]; 
+    printf ("Enter the directed graph in form of adjacency matrix:\n"); 
+    for (int i = 0; i < n; i++) { 
+        for (int j = 0; j < n; j++) { 
+            scanf("%d", &a[i][j]); 
+        } 
+    } 
+    printf ("\nMatrix:\n"); 
+    for (int i = 0; i < n; i++) { 
+        for (int j = 0; j < n; j++) { 
+            printf ("%d\t", a[i][j]); 
+        } 
+        printf ("\n"); 
+    } 
+    warshallAlgorithm(a, n); 
+    return 0; 
+}

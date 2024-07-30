@@ -1,0 +1,56 @@
+#include <stdio.h> 
+#include <stdbool.h>  
+#define MAX_VERTICES 100 
+#define INF 999 
+void dijkstraAlgorithm(int a[MAX_VERTICES][MAX_VERTICES], int n, int source) { 
+    int d[MAX_VERTICES]; 
+    bool s[MAX_VERTICES]; 
+        for (int i = 0; i < n; i++) { 
+        d[i] = a[source][i]; 
+        s[i] = false; 
+    } 
+    s[source] = true; 
+    for (int i = 0; i < n - 1; i++) { 
+        int u, min = INF; 
+                for (int v = 0; v < n; v++) { 
+            if (!s[v] && d[v] < min) { 
+                min = d[v]; 
+                u = v; 
+            } 
+        } 
+        s[u] = true; 
+              for (int v = 0; v < n; v++) { 
+            if (!s[v] && a[u][v] && d[u] != INF && d[u] + a[u][v] < d[v]) { 
+                d[v] = d[u] + a[u][v]; 
+            } 
+        } 
+    } 
+       printf ("\nShortest paths:\n"); 
+    for (int i = 0; i < n; i++) { 
+        printf ("%d --> %d = %d\n", source, i, d[i]); 
+    } 
+}  
+int main() { 
+    int n; 
+    printf ("Enter the number of vertices: "); 
+    scanf("%d", &n); 
+    int a[MAX_VERTICES][MAX_VERTICES]; 
+    printf ("Enter the weighted graph in form of adjacency matrix:\n"); 
+    for (int i = 0; i < n; i++) { 
+        for (int j = 0; j < n; j++) { 
+            scanf("%d", &a[i][j]); 
+        } 
+    } 
+    printf ("\nMatrix:\n"); 
+    for (int i = 0; i < n; i++) { 
+        for (int j = 0; j < n; j++) { 
+            printf ("%d\t", a[i][j]); 
+ } 
+printf ("\n"); 
+} 
+int source; 
+printf ("\nEnter the source vertex: "); 
+scanf("%d", &source); 
+dijkstraAlgorithm(a, n, source); 
+return 0; 
+}
